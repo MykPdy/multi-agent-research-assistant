@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     TAVILY_API_KEY: str
 
     LOG_LEVEL: str = "INFO"
-
+    GROQ_MODEL: str = "llama-3.1-8b-instant"
     model_config = SettingsConfigDict(
         env_file=".env",
         extra="ignore"
