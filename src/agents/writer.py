@@ -11,7 +11,7 @@ llm = ChatGroq(
     model=settings.GROQ_MODEL,
     api_key=settings.GROQ_API_KEY,
     temperature=0.2,
-    max_tokens=4000
+    max_tokens=2500
 )
 
 def writer_agent(state: ResearchState) -> ResearchState:
@@ -22,6 +22,12 @@ def writer_agent(state: ResearchState) -> ResearchState:
 
     try:
         state["agent_status"]["writer"] = "running"
+        MAX_RESEARCH_CONTEXT = 8000
+
+        research_notes = state["research_notes"]
+
+        if len(research_notes) > MAX_RESEARCH_CONTEXT:
+            research_notes = research_notes[-MAX_RESEARCH_CONTEXT:]
         sources_text = "\n".join(state["sources"])
         prompt = f"""
 You are a professional research report writer.
@@ -31,7 +37,7 @@ create a detailed report.
 
 Research Notes:
 
-{state["research_notes"]}
+{research_notes}
 
 Sources:
 
@@ -85,16 +91,16 @@ Return valid Markdown.
         )
 
         report = response.content
-        # DEBUGGING
-        print("\n" + "=" * 80)
-        print("REPORT LENGTH")
-        print("=" * 80)
-        print(len(report))
+        # # DEBUGGING
+        # print("\n" + "=" * 80)
+        # print("REPORT LENGTH")
+        # print("=" * 80)
+        # print(len(report))
 
-        print("\n" + "=" * 80)
-        print("LAST 500 CHARACTERS")
-        print("=" * 80)
-        print(report[-500:])
+        # print("\n" + "=" * 80)
+        # print("LAST 500 CHARACTERS")
+        # print("=" * 80)
+        # print(report[-500:])
 
         required_sections = [
             "# Executive Summary",

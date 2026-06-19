@@ -46,10 +46,11 @@ def research_agent(state: ResearchState) -> ResearchState:
             search_results,
             start=1
         ):
+            content = result.get("content", "")[:1000]
             source_text += (
                 f"\n[{idx}] {result['title']}\n"
                 f"URL: {result['url']}\n"
-                f"{result['content']}\n"
+                f"{content}\n"
             )
 
         prompt = f"""
