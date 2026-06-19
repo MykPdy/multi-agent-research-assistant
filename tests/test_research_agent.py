@@ -5,21 +5,31 @@ state = initial_state(
     query="Future of AI Agents in Enterprises"
 )
 
-updated_state = research_agent(state)
+print("\nFIRST EXECUTION")
+print("-" * 50)
 
-print("\n")
-print("=" * 80)
-print("RESEARCH NOTES")
-print("=" * 80)
+state = research_agent(state)
 
-print(
-    updated_state["research_notes"]
-)
+first_length = len(state["research_notes"])
 
-print("\n")
-print("=" * 80)
-print("SOURCES")
-print("=" * 80)
+print(f"Research Notes Length: {first_length}")
+print(f"Iteration Count: {state['iteration_count']}")
+print(f"Sources Count: {len(state['sources'])}")
 
-for source in updated_state["sources"]:
-    print(source)
+print("\nSECOND EXECUTION")
+print("-" * 50)
+
+state = research_agent(state)
+
+second_length = len(state["research_notes"])
+
+print(f"Research Notes Length: {second_length}")
+print(f"Iteration Count: {state['iteration_count']}")
+print(f"Sources Count: {len(state['sources'])}")
+
+print("\nVERIFICATION")
+print("-" * 50)
+
+print(f"Notes Grew: {second_length > first_length}")
+print(f"Iterations: {state['iteration_count']}")
+print(f"Errors: {state['error_log']}")
